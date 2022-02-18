@@ -88,15 +88,10 @@ Public Class godaddyUpdateClient
         Catch ex As WebException
 
             If ex.Status = WebExceptionStatus.ProtocolError Then
-
-                If (CType(ex.Response, HttpWebResponse)).StatusCode = HttpStatusCode.NotFound Then
-
-                    'handle the 404 here
-                    MsgBox("404")
+                Dim respons As WebResponse = ex.Response
+                If respons IsNot Nothing Then
+                    MsgBox(ex.Status.ToString)
                 End If
-            ElseIf ex.Status = WebExceptionStatus.NameResolutionFailure Then
-
-                'handle name resolution failure
 
             End If
 
