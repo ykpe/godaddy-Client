@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Form1
+Partial Class godaddyUpdateClient
     Inherits System.Windows.Forms.Form
 
     'Form 覆寫 Dispose 以清除元件清單。
@@ -22,10 +22,158 @@ Partial Class Form1
     '請勿使用程式碼編輯器進行修改。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container()
+        Me.components = New System.ComponentModel.Container()
+        Me.TextBox_Domain = New System.Windows.Forms.TextBox()
+        Me.Label_Domain = New System.Windows.Forms.Label()
+        Me.Label_API_Key = New System.Windows.Forms.Label()
+        Me.TextBox_API_Key = New System.Windows.Forms.TextBox()
+        Me.TextBox_API_Secret = New System.Windows.Forms.TextBox()
+        Me.TextBox_Interval = New System.Windows.Forms.TextBox()
+        Me.Label_API_Secret = New System.Windows.Forms.Label()
+        Me.Label_Interval = New System.Windows.Forms.Label()
+        Me.Btn_Submit = New System.Windows.Forms.Button()
+        Me.Btn_Cancel = New System.Windows.Forms.Button()
+        Me.Timer_updateDNS = New System.Windows.Forms.Timer(Me.components)
+        Me.TextBox_Hostname = New System.Windows.Forms.TextBox()
+        Me.Label_Hostname = New System.Windows.Forms.Label()
+        Me.SuspendLayout()
+        '
+        'TextBox_Domain
+        '
+        Me.TextBox_Domain.Location = New System.Drawing.Point(115, 38)
+        Me.TextBox_Domain.Name = "TextBox_Domain"
+        Me.TextBox_Domain.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_Domain.TabIndex = 0
+        '
+        'Label_Domain
+        '
+        Me.Label_Domain.AutoSize = True
+        Me.Label_Domain.Location = New System.Drawing.Point(26, 38)
+        Me.Label_Domain.Name = "Label_Domain"
+        Me.Label_Domain.Size = New System.Drawing.Size(37, 12)
+        Me.Label_Domain.TabIndex = 1
+        Me.Label_Domain.Text = "Label1"
+        '
+        'Label_API_Key
+        '
+        Me.Label_API_Key.AutoSize = True
+        Me.Label_API_Key.Location = New System.Drawing.Point(26, 97)
+        Me.Label_API_Key.Name = "Label_API_Key"
+        Me.Label_API_Key.Size = New System.Drawing.Size(37, 12)
+        Me.Label_API_Key.TabIndex = 2
+        Me.Label_API_Key.Text = "Label2"
+        '
+        'TextBox_API_Key
+        '
+        Me.TextBox_API_Key.Location = New System.Drawing.Point(115, 97)
+        Me.TextBox_API_Key.Name = "TextBox_API_Key"
+        Me.TextBox_API_Key.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_API_Key.TabIndex = 3
+        '
+        'TextBox_API_Secret
+        '
+        Me.TextBox_API_Secret.Location = New System.Drawing.Point(115, 147)
+        Me.TextBox_API_Secret.Name = "TextBox_API_Secret"
+        Me.TextBox_API_Secret.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_API_Secret.TabIndex = 4
+        '
+        'TextBox_Interval
+        '
+        Me.TextBox_Interval.Location = New System.Drawing.Point(115, 243)
+        Me.TextBox_Interval.Name = "TextBox_Interval"
+        Me.TextBox_Interval.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_Interval.TabIndex = 5
+        '
+        'Label_API_Secret
+        '
+        Me.Label_API_Secret.AutoSize = True
+        Me.Label_API_Secret.Location = New System.Drawing.Point(26, 150)
+        Me.Label_API_Secret.Name = "Label_API_Secret"
+        Me.Label_API_Secret.Size = New System.Drawing.Size(37, 12)
+        Me.Label_API_Secret.TabIndex = 6
+        Me.Label_API_Secret.Text = "Label3"
+        '
+        'Label_Interval
+        '
+        Me.Label_Interval.AutoSize = True
+        Me.Label_Interval.Location = New System.Drawing.Point(26, 243)
+        Me.Label_Interval.Name = "Label_Interval"
+        Me.Label_Interval.Size = New System.Drawing.Size(37, 12)
+        Me.Label_Interval.TabIndex = 7
+        Me.Label_Interval.Text = "Label4"
+        '
+        'Btn_Submit
+        '
+        Me.Btn_Submit.Location = New System.Drawing.Point(84, 306)
+        Me.Btn_Submit.Name = "Btn_Submit"
+        Me.Btn_Submit.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_Submit.TabIndex = 8
+        Me.Btn_Submit.Text = "Button1"
+        Me.Btn_Submit.UseVisualStyleBackColor = True
+        '
+        'Btn_Cancel
+        '
+        Me.Btn_Cancel.Location = New System.Drawing.Point(344, 306)
+        Me.Btn_Cancel.Name = "Btn_Cancel"
+        Me.Btn_Cancel.Size = New System.Drawing.Size(75, 23)
+        Me.Btn_Cancel.TabIndex = 9
+        Me.Btn_Cancel.Text = "Button2"
+        Me.Btn_Cancel.UseVisualStyleBackColor = True
+        '
+        'Timer_updateDNS
+        '
+        '
+        'TextBox_Hostname
+        '
+        Me.TextBox_Hostname.Location = New System.Drawing.Point(115, 194)
+        Me.TextBox_Hostname.Name = "TextBox_Hostname"
+        Me.TextBox_Hostname.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_Hostname.TabIndex = 10
+        '
+        'Label_Hostname
+        '
+        Me.Label_Hostname.AutoSize = True
+        Me.Label_Hostname.Location = New System.Drawing.Point(26, 197)
+        Me.Label_Hostname.Name = "Label_Hostname"
+        Me.Label_Hostname.Size = New System.Drawing.Size(37, 12)
+        Me.Label_Hostname.TabIndex = 11
+        Me.Label_Hostname.Text = "Label1"
+        '
+        'godaddyUpdateClient
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Text = "Form1"
+        Me.ClientSize = New System.Drawing.Size(592, 388)
+        Me.Controls.Add(Me.Label_Hostname)
+        Me.Controls.Add(Me.TextBox_Hostname)
+        Me.Controls.Add(Me.Btn_Cancel)
+        Me.Controls.Add(Me.Btn_Submit)
+        Me.Controls.Add(Me.Label_Interval)
+        Me.Controls.Add(Me.Label_API_Secret)
+        Me.Controls.Add(Me.TextBox_Interval)
+        Me.Controls.Add(Me.TextBox_API_Secret)
+        Me.Controls.Add(Me.TextBox_API_Key)
+        Me.Controls.Add(Me.Label_API_Key)
+        Me.Controls.Add(Me.Label_Domain)
+        Me.Controls.Add(Me.TextBox_Domain)
+        Me.Name = "godaddyUpdateClient"
+        Me.Text = "Godaddy Client"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
     End Sub
 
+    Friend WithEvents TextBox_Domain As TextBox
+    Friend WithEvents Label_Domain As Label
+    Friend WithEvents Label_API_Key As Label
+    Friend WithEvents TextBox_API_Key As TextBox
+    Friend WithEvents TextBox_API_Secret As TextBox
+    Friend WithEvents TextBox_Interval As TextBox
+    Friend WithEvents Label_API_Secret As Label
+    Friend WithEvents Label_Interval As Label
+    Friend WithEvents Btn_Submit As Button
+    Friend WithEvents Btn_Cancel As Button
+    Friend WithEvents Timer_updateDNS As Timer
+    Friend WithEvents TextBox_Hostname As TextBox
+    Friend WithEvents Label_Hostname As Label
 End Class
