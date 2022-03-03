@@ -64,38 +64,31 @@ Public Class godaddyUpdateClient
         Try
             If e.Cancelled = False AndAlso e.Error Is Nothing Then
 
-
                 Dim data() As Byte = CType(e.Result, Byte())
-                Dim ipInfo As String = System.Text.Encoding.UTF8.GetString(data)
+                Dim ipInfo As String = "{""data"":""" + System.Text.Encoding.UTF8.GetString(data) + """}"
+
+
+                Dim infoArray(0) As Dictionary(Of String, Object)
+                Dim dataStruct As New Dictionary(Of String, Object)
+
+                dataStruct.Add("data", System.Text.Encoding.UTF8.GetString(data))
+                infoArray(0) = dataStruct
 
                 Dim authInfo As String = "sso-key " + dataPassIn.key + ":" + dataPassIn.secret
                 Dim apiURL As String = "https://api.godaddy.com/v1/domains/" + dataPassIn.domainName + "/records/A/" + dataPassIn.hostname
 
                 Dim web As New System.Net.WebClient()
+                web.Headers("accept") = "application/json"
+                web.Headers("Content-Type") = "application/json"
+                web.Headers("Authorization") = authInfo
 
-                web.Headers.Add("Content-Type", "application/json")
-                web.Headers.Add("Authorization", authInfo)
+                Dim dataForPost As String = System.Text.Json.JsonSerializer.Serialize(infoArray)
+                Dim res As String = web.UploadString(apiURL, "PUT", dataForPost)
 
-                Dim dictionary As New Dictionary(Of String, String)
-                dictionary.Add("data", ipInfo)
-
-                Dim dataForPost As Byte() = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(dictionary)
-
-                Dim res As Byte() = web.UploadData(apiURL, "POST", dataForPost)
-
-                MsgBox(System.Text.Encoding.UTF8.GetString(res))
+                MsgBox(res)
             End If
         Catch ex As WebException
-
-            If ex.Status = WebExceptionStatus.ProtocolError Then
-                Dim respons As WebResponse = ex.Response
-                If respons IsNot Nothing Then
-                    MsgBox(ex.Status.ToString)
-                End If
-
-            End If
-
-
+            MsgBox(ex.Message)
         End Try
     End Sub
 
