@@ -14,10 +14,10 @@ Public Class godaddyUpdateClient
         'Update UI language
         Btn_Submit.Text = "Start"
         Btn_Cancel.Text = "Stop"
-        Label_API_Key.Text = "API KEY"
+        Label_API_Key.Text = "API Key"
         Label_API_Secret.Text = "API Secret"
         Label_Domain.Text = "Domain"
-        Label_Interval.Text = "Update Interval"
+        Label_Interval.Text = "Update (Mins)"
         Label_Hostname.Text = "Host Name"
 
         'Load records from file
@@ -55,7 +55,7 @@ Public Class godaddyUpdateClient
 
     Private Sub updateTimerSetting()
         Timer_updateDNS.Stop()
-        Timer_updateDNS.Interval = godaddyData.updateInterval * 6000
+        Timer_updateDNS.Interval = godaddyData.updateInterval * 60000
         Timer_updateDNS.Start()
     End Sub
     Private Sub UpdateDomain()
