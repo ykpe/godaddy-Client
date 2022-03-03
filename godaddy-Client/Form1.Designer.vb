@@ -23,6 +23,7 @@ Partial Class godaddyUpdateClient
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(godaddyUpdateClient))
         Me.TextBox_Domain = New System.Windows.Forms.TextBox()
         Me.Label_Domain = New System.Windows.Forms.Label()
         Me.Label_API_Key = New System.Windows.Forms.Label()
@@ -36,6 +37,11 @@ Partial Class godaddyUpdateClient
         Me.Timer_updateDNS = New System.Windows.Forms.Timer(Me.components)
         Me.TextBox_Hostname = New System.Windows.Forms.TextBox()
         Me.Label_Hostname = New System.Windows.Forms.Label()
+        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.SettingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextBox_Domain
@@ -139,6 +145,31 @@ Partial Class godaddyUpdateClient
         Me.Label_Hostname.TabIndex = 11
         Me.Label_Hostname.Text = "Label1"
         '
+        'NotifyIcon1
+        '
+        Me.NotifyIcon1.ContextMenuStrip = Me.ContextMenuStrip1
+        Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
+        Me.NotifyIcon1.Text = "NotifyIcon1"
+        Me.NotifyIcon1.Visible = True
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SettingToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(115, 48)
+        '
+        'SettingToolStripMenuItem
+        '
+        Me.SettingToolStripMenuItem.Name = "SettingToolStripMenuItem"
+        Me.SettingToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.SettingToolStripMenuItem.Text = "Setting"
+        '
+        'ExitToolStripMenuItem
+        '
+        Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.ExitToolStripMenuItem.Text = "Exit"
+        '
         'godaddyUpdateClient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -158,6 +189,7 @@ Partial Class godaddyUpdateClient
         Me.Controls.Add(Me.TextBox_Domain)
         Me.Name = "godaddyUpdateClient"
         Me.Text = "Godaddy Client"
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -176,4 +208,8 @@ Partial Class godaddyUpdateClient
     Friend WithEvents Timer_updateDNS As Timer
     Friend WithEvents TextBox_Hostname As TextBox
     Friend WithEvents Label_Hostname As Label
+    Friend WithEvents NotifyIcon1 As NotifyIcon
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents SettingToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
 End Class

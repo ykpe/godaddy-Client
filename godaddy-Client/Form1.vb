@@ -6,14 +6,14 @@ Public Class godaddyUpdateClient
     Dim godaddyData As GodaddyData
     Dim ipInfoURL As String = "https://api.ipify.org"
     Dim recordFileName As String = "tick.tmp"
-
+    Private CloseAllowed As Boolean
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         godaddyData = New GodaddyData()
 
         'Update UI language
-        Btn_Submit.Text = "Save"
-        Btn_Cancel.Text = "Cancel"
+        Btn_Submit.Text = "Start"
+        Btn_Cancel.Text = "Stop"
         Label_API_Key.Text = "API KEY"
         Label_API_Secret.Text = "API Secret"
         Label_Domain.Text = "Domain"
@@ -31,6 +31,16 @@ Public Class godaddyUpdateClient
             updateTimerSetting()
         End If
     End Sub
+
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
+        If Not CloseAllowed And e.CloseReason <> CloseReason.WindowsShutDown Then
+            Me.Hide()
+            e.Cancel = True
+            NotifyIcon1.Visible = True
+            '' etc..
+        End If
+    End Sub
+
 
     Private Sub Btn_Submit_Click(sender As Object, e As EventArgs) Handles Btn_Submit.Click
         godaddyData.key = TextBox_API_Key.Text
@@ -120,6 +130,19 @@ Public Class godaddyUpdateClient
             My.Computer.FileSystem.DeleteFile(recordFileName)
         End If
         My.Computer.FileSystem.WriteAllText(recordFileName, godaddyData.StringForWrite(), True)
+    End Sub
+
+    Private Sub SettingToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingToolStripMenuItem.Click
+        Me.Show()
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click_1(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        CloseAllowed = True
+        Me.Close()
+    End Sub
+
+    Private Sub Btn_Cancel_Click(sender As Object, e As EventArgs) Handles Btn_Cancel.Click
+        Timer_updateDNS.Stop()
     End Sub
 End Class
 
