@@ -174,7 +174,7 @@ Partial Class godaddyUpdateClient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(592, 388)
+        Me.ClientSize = New System.Drawing.Size(517, 355)
         Me.Controls.Add(Me.Label_Hostname)
         Me.Controls.Add(Me.TextBox_Hostname)
         Me.Controls.Add(Me.Btn_Cancel)
@@ -187,6 +187,7 @@ Partial Class godaddyUpdateClient
         Me.Controls.Add(Me.Label_API_Key)
         Me.Controls.Add(Me.Label_Domain)
         Me.Controls.Add(Me.TextBox_Domain)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "godaddyUpdateClient"
         Me.Text = "Godaddy Client"
         Me.ContextMenuStrip1.ResumeLayout(False)
