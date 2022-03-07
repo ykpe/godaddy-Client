@@ -37,10 +37,19 @@ Public Class godaddyUpdateClient
             Me.Hide()
             e.Cancel = True
             NotifyIcon1.Visible = True
-            '' etc..
         End If
     End Sub
 
+    Private Sub notifyIcon1_DoubleClick(Sender As Object, e As EventArgs) Handles NotifyIcon1.DoubleClick
+        ' Show the form when the user double clicks on the notify icon.
+        Me.Show()
+        ' Set the WindowState to normal if the form is minimized.
+        If (Me.WindowState = FormWindowState.Minimized) Then _
+            Me.WindowState = FormWindowState.Normal
+
+        ' Activate the form.
+        Me.Activate()
+    End Sub
 
     Private Sub Btn_Submit_Click(sender As Object, e As EventArgs) Handles Btn_Submit.Click
         godaddyData.key = TextBox_API_Key.Text
@@ -74,14 +83,11 @@ Public Class godaddyUpdateClient
         Try
             If e.Cancelled = False AndAlso e.Error Is Nothing Then
 
-                Dim data() As Byte = CType(e.Result, Byte())
-                Dim ipInfo As String = "{""data"":""" + System.Text.Encoding.UTF8.GetString(data) + """}"
-
-
                 Dim infoArray(0) As Dictionary(Of String, Object)
                 Dim dataStruct As New Dictionary(Of String, Object)
+                Dim dataInfo() As Byte = CType(e.Result, Byte())
 
-                dataStruct.Add("data", System.Text.Encoding.UTF8.GetString(data))
+                dataStruct.Add("data", System.Text.Encoding.UTF8.GetString(dataInfo))
                 infoArray(0) = dataStruct
 
                 Dim authInfo As String = "sso-key " + dataPassIn.key + ":" + dataPassIn.secret
@@ -94,8 +100,6 @@ Public Class godaddyUpdateClient
 
                 Dim dataForPost As String = System.Text.Json.JsonSerializer.Serialize(infoArray)
                 Dim res As String = web.UploadString(apiURL, "PUT", dataForPost)
-
-                MsgBox(res)
             End If
         Catch ex As WebException
             MsgBox(ex.Message)
