@@ -28,7 +28,7 @@ Public Class godaddyUpdateClient
 
         'if interval has been set
         If godaddyData.updateInterval > 0 Then
-            updateTimerSetting()
+            StartTimer()
         End If
     End Sub
 
@@ -59,13 +59,17 @@ Public Class godaddyUpdateClient
         godaddyData.updateInterval = TextBox_Interval.Text
         SaveRecord()
         UpdateDomain()
-        updateTimerSetting()
+        StartTimer()
     End Sub
 
-    Private Sub updateTimerSetting()
+    Private Sub StartTimer()
         Timer_updateDNS.Stop()
         Timer_updateDNS.Interval = godaddyData.updateInterval * 60000
         Timer_updateDNS.Start()
+
+        Btn_Submit.Enabled = False
+        Btn_Cancel.Enabled = True
+
     End Sub
     Private Sub UpdateDomain()
         Dim client As WebClient = New WebClient()
@@ -118,6 +122,7 @@ Public Class godaddyUpdateClient
         TextBox_Domain.Text = godaddyData.domainName
         TextBox_Hostname.Text = godaddyData.hostname
         TextBox_Interval.Text = godaddyData.updateInterval
+
     End Sub
 
     Private Sub LoadRecord()
@@ -147,6 +152,8 @@ Public Class godaddyUpdateClient
 
     Private Sub Btn_Cancel_Click(sender As Object, e As EventArgs) Handles Btn_Cancel.Click
         Timer_updateDNS.Stop()
+        Btn_Submit.Enabled = True
+        Btn_Cancel.Enabled = False
     End Sub
 End Class
 
