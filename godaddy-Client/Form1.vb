@@ -29,6 +29,8 @@ Public Class godaddyUpdateClient
         'if interval has been set
         If godaddyData.updateInterval > 0 Then
             StartTimer()
+        Else
+            StopTimer()
         End If
     End Sub
 
@@ -69,8 +71,14 @@ Public Class godaddyUpdateClient
 
         Btn_Submit.Enabled = False
         Btn_Cancel.Enabled = True
-
     End Sub
+
+    Private Sub StopTimer()
+        Timer_updateDNS.Stop()
+        Btn_Submit.Enabled = True
+        Btn_Cancel.Enabled = False
+    End Sub
+
     Private Sub UpdateDomain()
         Dim client As WebClient = New WebClient()
         AddHandler client.DownloadDataCompleted, AddressOf DownloadDataCallback
@@ -78,7 +86,6 @@ Public Class godaddyUpdateClient
         client.DownloadDataAsync(uri, godaddyData)
 
     End Sub
-
 
     Private Shared Sub DownloadDataCallback(ByVal sender As Object, ByVal e As DownloadDataCompletedEventArgs)
 
@@ -110,8 +117,6 @@ Public Class godaddyUpdateClient
         End Try
     End Sub
 
-
-
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer_updateDNS.Tick
         UpdateDomain()
     End Sub
@@ -122,7 +127,6 @@ Public Class godaddyUpdateClient
         TextBox_Domain.Text = godaddyData.domainName
         TextBox_Hostname.Text = godaddyData.hostname
         TextBox_Interval.Text = godaddyData.updateInterval
-
     End Sub
 
     Private Sub LoadRecord()
@@ -151,9 +155,7 @@ Public Class godaddyUpdateClient
     End Sub
 
     Private Sub Btn_Cancel_Click(sender As Object, e As EventArgs) Handles Btn_Cancel.Click
-        Timer_updateDNS.Stop()
-        Btn_Submit.Enabled = True
-        Btn_Cancel.Enabled = False
+        StopTimer()
     End Sub
 End Class
 
