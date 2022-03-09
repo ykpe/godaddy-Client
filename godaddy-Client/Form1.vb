@@ -54,11 +54,34 @@ Public Class godaddyUpdateClient
     End Sub
 
     Private Sub Btn_Submit_Click(sender As Object, e As EventArgs) Handles Btn_Submit.Click
-        godaddyData.key = TextBox_API_Key.Text
-        godaddyData.secret = TextBox_API_Secret.Text
-        godaddyData.domainName = TextBox_Domain.Text
-        godaddyData.hostname = TextBox_Hostname.Text
-        godaddyData.updateInterval = TextBox_Interval.Text
+        If TextBox_API_Key.Text.Length > 0 Then
+            godaddyData.key = TextBox_API_Key.Text
+        Else
+            Return
+        End If
+        If TextBox_API_Secret.Text.Length > 0 Then
+            godaddyData.secret = TextBox_API_Secret.Text
+        Else
+            Return
+        End If
+
+        If TextBox_Domain.Text.Length > 0 Then
+            godaddyData.domainName = TextBox_Domain.Text
+        Else
+            Return
+        End If
+
+        If TextBox_Hostname.Text.Length > 0 Then
+            godaddyData.hostname = TextBox_Hostname.Text
+        Else
+            Return
+        End If
+        If TextBox_Interval.Text.Length > 0 Then
+            godaddyData.updateInterval = Convert.ToInt32(TextBox_Interval.Text)
+        Else
+            Return
+        End If
+
         SaveRecord()
         UpdateDomain()
         StartTimer()
@@ -87,7 +110,7 @@ Public Class godaddyUpdateClient
 
     End Sub
 
-    Private Shared Sub DownloadDataCallback(ByVal sender As Object, ByVal e As DownloadDataCompletedEventArgs)
+    Private Sub DownloadDataCallback(ByVal sender As Object, ByVal e As DownloadDataCompletedEventArgs)
 
         Dim dataPassIn As GodaddyData = CType(e.UserState, GodaddyData)
 
@@ -113,6 +136,7 @@ Public Class godaddyUpdateClient
                 Dim res As String = web.UploadString(apiURL, "PUT", dataForPost)
             End If
         Catch ex As WebException
+            StopTimer()
             MsgBox(ex.Message)
         End Try
     End Sub
@@ -156,6 +180,14 @@ Public Class godaddyUpdateClient
 
     Private Sub Btn_Cancel_Click(sender As Object, e As EventArgs) Handles Btn_Cancel.Click
         StopTimer()
+    End Sub
+
+    Private Sub TextBox_Interval_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox_Interval.KeyPress
+        If Char.IsDigit(e.KeyChar) Or Char.IsControl(e.KeyChar) Then
+            e.Handled = False
+        Else
+            e.Handled = True
+        End If
     End Sub
 End Class
 
