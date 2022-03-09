@@ -78,8 +78,12 @@ Public Class godaddyUpdateClient
         End If
         If TextBox_Interval.Text.Length > 0 Then
             godaddyData.updateInterval = Convert.ToInt32(TextBox_Interval.Text)
+            If godaddyData.updateInterval > 35790 Then
+                godaddyData.updateInterval = 35790
+                TextBox_Interval.Text = "35790"
+            End If
         Else
-            Return
+                Return
         End If
 
         SaveRecord()
