@@ -161,11 +161,15 @@ Public Class godaddyUpdateClient
 
             End If
         Catch ex As WebException
+            Dim errorMsg As String = ""
+            If ex.Message IsNot Nothing Then
+                errorMsg = ex.Message.Substring(0, Math.Min(ex.Message.Length, 40))
+            End If
             If currentIP = 4 Then
                 StopTimer()
-                Label_UpdateState_4.Text = "IPv4:" + ex.Message + Now
+                Label_UpdateState_4.Text = "IPv4:" + errorMsg + Now
             Else
-                Label_UpdateState_6.Text = "IPv6:" + ex.Message + Now
+                Label_UpdateState_6.Text = "IPv6:" + errorMsg + Now
             End If
 
         End Try
@@ -175,11 +179,13 @@ Public Class godaddyUpdateClient
         Dim currentIP As Integer = CType(e.UserState, Integer)
 
         If Not e.Error Is Nothing Then
+            Dim errorMsg As String = e.Error.ToString.Substring(0, Math.Min(e.Error.ToString.Length, 40))
+
             If currentIP = 4 Then
                 StopTimer()
-                Label_UpdateState_4.Text = "IPv4:" + e.Error.ToString + Now
+                Label_UpdateState_4.Text = "IPv4:" + errorMsg + " " + Now
             Else
-                Label_UpdateState_6.Text = "IPv6:" + e.Error.ToString + Now
+                Label_UpdateState_6.Text = "IPv6:" + errorMsg + " " + Now
             End If
         Else
             If currentIP = 4 Then
