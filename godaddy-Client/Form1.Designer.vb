@@ -41,6 +41,8 @@ Partial Class godaddyUpdateClient
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SettingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Label_UpdateState_4 = New System.Windows.Forms.Label()
+        Me.Label_UpdateState_6 = New System.Windows.Forms.Label()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -170,11 +172,31 @@ Partial Class godaddyUpdateClient
         Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
+        'Label_UpdateState_4
+        '
+        Me.Label_UpdateState_4.AutoSize = True
+        Me.Label_UpdateState_4.Location = New System.Drawing.Point(13, 331)
+        Me.Label_UpdateState_4.Name = "Label_UpdateState_4"
+        Me.Label_UpdateState_4.Size = New System.Drawing.Size(37, 12)
+        Me.Label_UpdateState_4.TabIndex = 12
+        Me.Label_UpdateState_4.Text = "Label1"
+        '
+        'Label_UpdateState_6
+        '
+        Me.Label_UpdateState_6.AutoSize = True
+        Me.Label_UpdateState_6.Location = New System.Drawing.Point(13, 345)
+        Me.Label_UpdateState_6.Name = "Label_UpdateState_6"
+        Me.Label_UpdateState_6.Size = New System.Drawing.Size(37, 12)
+        Me.Label_UpdateState_6.TabIndex = 13
+        Me.Label_UpdateState_6.Text = "Label1"
+        '
         'godaddyUpdateClient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(517, 355)
+        Me.ClientSize = New System.Drawing.Size(517, 366)
+        Me.Controls.Add(Me.Label_UpdateState_6)
+        Me.Controls.Add(Me.Label_UpdateState_4)
         Me.Controls.Add(Me.Label_Hostname)
         Me.Controls.Add(Me.TextBox_Hostname)
         Me.Controls.Add(Me.Btn_Cancel)
@@ -213,4 +235,6 @@ Partial Class godaddyUpdateClient
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents SettingToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents Label_UpdateState_4 As Label
+    Friend WithEvents Label_UpdateState_6 As Label
 End Class

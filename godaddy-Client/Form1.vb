@@ -5,6 +5,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Public Class godaddyUpdateClient
     Dim godaddyData As GodaddyData
     Dim ipInfoURL As String = "https://api.ipify.org"
+    Dim ip6InfoURL As String = "https://api64.ipify.org"
     Dim recordFileName As String = "tick.tmp"
     Private CloseAllowed As Boolean
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -19,6 +20,8 @@ Public Class godaddyUpdateClient
         Label_Domain.Text = "Domain"
         Label_Interval.Text = "Update (Mins)"
         Label_Hostname.Text = "Host Name"
+        Label_UpdateState_4.Text = "IPv4:"
+        Label_UpdateState_6.Text = "IPv6:"
 
         'Load records from file
         LoadRecord()
@@ -28,6 +31,7 @@ Public Class godaddyUpdateClient
 
         'if interval has been set
         If godaddyData.updateInterval > 0 Then
+            UpdateDomain()
             StartTimer()
         Else
             StopTimer()
@@ -83,7 +87,7 @@ Public Class godaddyUpdateClient
                 TextBox_Interval.Text = "35790"
             End If
         Else
-                Return
+            Return
         End If
 
         SaveRecord()
@@ -107,16 +111,22 @@ Public Class godaddyUpdateClient
     End Sub
 
     Private Sub UpdateDomain()
-        Dim client As WebClient = New WebClient()
-        AddHandler client.DownloadDataCompleted, AddressOf DownloadDataCallback
+        Dim clientIPv4 As WebClient = New WebClient()
+        AddHandler clientIPv4.DownloadDataCompleted, AddressOf DownloadDataCallback
         Dim uri As Uri = New Uri(ipInfoURL)
-        client.DownloadDataAsync(uri, godaddyData)
+        clientIPv4.DownloadDataAsync(uri, 4)
+
+
+        Dim clientIPv6 As WebClient = New WebClient()
+        AddHandler clientIPv6.DownloadDataCompleted, AddressOf DownloadDataCallback
+        Dim uri6 As Uri = New Uri(ip6InfoURL)
+        clientIPv6.DownloadDataAsync(uri6, 6)
 
     End Sub
 
     Private Sub DownloadDataCallback(ByVal sender As Object, ByVal e As DownloadDataCompletedEventArgs)
 
-        Dim dataPassIn As GodaddyData = CType(e.UserState, GodaddyData)
+        Dim currentIP As Integer = CType(e.UserState, Integer)
 
         Try
             If e.Cancelled = False AndAlso e.Error Is Nothing Then
@@ -128,8 +138,15 @@ Public Class godaddyUpdateClient
                 dataStruct.Add("data", System.Text.Encoding.UTF8.GetString(dataInfo))
                 infoArray(0) = dataStruct
 
-                Dim authInfo As String = "sso-key " + dataPassIn.key + ":" + dataPassIn.secret
-                Dim apiURL As String = "https://api.godaddy.com/v1/domains/" + dataPassIn.domainName + "/records/A/" + dataPassIn.hostname
+                Dim authInfo As String = "sso-key " + godaddyData.key + ":" + godaddyData.secret
+                Dim apiURL As String = ""
+                If currentIP = 4 Then
+                    Label_UpdateState_4.Text = "IPv4: " + System.Text.Encoding.UTF8.GetString(dataInfo)
+                    apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/A/" + godaddyData.hostname
+                Else
+                    Label_UpdateState_6.Text = "IPv6: " + System.Text.Encoding.UTF8.GetString(dataInfo)
+                    apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/AAAA/" + godaddyData.hostname
+                End If
 
                 Dim web As New System.Net.WebClient()
                 web.Headers("accept") = "application/json"
@@ -137,12 +154,31 @@ Public Class godaddyUpdateClient
                 web.Headers("Authorization") = authInfo
 
                 Dim dataForPost As String = System.Text.Json.JsonSerializer.Serialize(infoArray)
-                Dim res As String = web.UploadString(apiURL, "PUT", dataForPost)
+                AddHandler web.UploadStringCompleted, AddressOf UploadStringCallback2
+
+                Dim uri As Uri = New Uri(apiURL)
+                web.UploadStringAsync(uri, "PUT", dataForPost, currentIP)
+
             End If
         Catch ex As WebException
-            StopTimer()
-            MsgBox(ex.Message)
+            If currentIP = 4 Then
+                StopTimer()
+                Label_UpdateState_4.Text = "IPv4:" + ex.Message + Now
+            Else
+                Label_UpdateState_6.Text = "IPv6:" + ex.Message + Now
+            End If
+
         End Try
+    End Sub
+
+    Private Sub UploadStringCallback2(ByVal sender As Object, ByVal e As UploadStringCompletedEventArgs)
+        Dim currentIP As Integer = CType(e.UserState, Integer)
+        If currentIP = 4 Then
+            Label_UpdateState_4.Text = "IPv4: Success " + Now
+        Else
+            Label_UpdateState_6.Text = "IPv6: Success " + Now
+        End If
+
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer_updateDNS.Tick
@@ -230,6 +266,9 @@ Public Class GodaddyData
         domainName = datas(domainNameIndex)
         hostname = datas(hostNameIndex)
         updateInterval = datas(updateIntervalIndex)
+        If updateInterval > 35790 Then
+            updateInterval = 35790
+        End If
         Return True
     End Function
 
