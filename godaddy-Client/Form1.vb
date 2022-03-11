@@ -173,10 +173,20 @@ Public Class godaddyUpdateClient
 
     Private Sub UploadStringCallback2(ByVal sender As Object, ByVal e As UploadStringCompletedEventArgs)
         Dim currentIP As Integer = CType(e.UserState, Integer)
-        If currentIP = 4 Then
-            Label_UpdateState_4.Text = "IPv4: Success " + Now
+
+        If Not e.Error Is Nothing Then
+            If currentIP = 4 Then
+                StopTimer()
+                Label_UpdateState_4.Text = "IPv4:" + e.Error.ToString + Now
+            Else
+                Label_UpdateState_6.Text = "IPv6:" + e.Error.ToString + Now
+            End If
         Else
-            Label_UpdateState_6.Text = "IPv6: Success " + Now
+            If currentIP = 4 Then
+                Label_UpdateState_4.Text = "IPv4: Success " + Now
+            Else
+                Label_UpdateState_6.Text = "IPv6: Success " + Now
+            End If
         End If
 
     End Sub
