@@ -90,6 +90,8 @@ Public Class godaddyUpdateClient
             Return
         End If
 
+        godaddyData.enableIPv6 = CheckBoxIPv6.Checked
+
         SaveRecord()
         UpdateDomain()
         StartTimer()
@@ -208,6 +210,7 @@ Public Class godaddyUpdateClient
         TextBox_Domain.Text = godaddyData.domainName
         TextBox_Hostname.Text = godaddyData.hostname
         TextBox_Interval.Text = godaddyData.updateInterval
+        CheckBoxIPv6.Checked = godaddyData.enableIPv6
     End Sub
 
     Private Sub LoadRecord()
@@ -254,6 +257,7 @@ Public Class GodaddyData
     Public domainName As String
     Public hostname As String
     Public updateInterval As String
+    Public enableIPv6 As Boolean
 
     Dim _splitToken As Char = ","
     Dim keyIndex As Integer = 0
@@ -261,6 +265,7 @@ Public Class GodaddyData
     Dim domainNameIndex As Integer = 2
     Dim hostNameIndex As Integer = 3
     Dim updateIntervalIndex As Integer = 4
+    Dim enableIPv6Index As Integer = 5
 
     Public Function StringForWrite() As String
         Dim stringToWrite As New System.Text.StringBuilder()
@@ -273,6 +278,8 @@ Public Class GodaddyData
         stringToWrite.Append(hostname)
         stringToWrite.Append(_splitToken)
         stringToWrite.Append(updateInterval)
+        stringToWrite.Append(_splitToken)
+        stringToWrite.Append(enableIPv6.ToString)
         Return stringToWrite.ToString()
     End Function
 
@@ -286,6 +293,9 @@ Public Class GodaddyData
         If updateInterval > 35790 Then
             updateInterval = 35790
         End If
+
+        enableIPv6 = datas(enableIPv6Index)
+
         Return True
     End Function
 

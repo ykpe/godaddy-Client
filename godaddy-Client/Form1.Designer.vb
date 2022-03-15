@@ -91,7 +91,7 @@ Partial Class godaddyUpdateClient
         Me.TextBox_Interval.Location = New System.Drawing.Point(115, 243)
         Me.TextBox_Interval.Name = "TextBox_Interval"
         Me.TextBox_Interval.Size = New System.Drawing.Size(336, 22)
-        Me.TextBox_Interval.TabIndex = 5
+        Me.TextBox_Interval.TabIndex = 10
         '
         'Label_API_Secret
         '
@@ -137,7 +137,7 @@ Partial Class godaddyUpdateClient
         Me.TextBox_Hostname.Location = New System.Drawing.Point(115, 194)
         Me.TextBox_Hostname.Name = "TextBox_Hostname"
         Me.TextBox_Hostname.Size = New System.Drawing.Size(336, 22)
-        Me.TextBox_Hostname.TabIndex = 10
+        Me.TextBox_Hostname.TabIndex = 5
         '
         'Label_Hostname
         '
@@ -176,7 +176,7 @@ Partial Class godaddyUpdateClient
         'Label_UpdateState_4
         '
         Me.Label_UpdateState_4.AutoSize = True
-        Me.Label_UpdateState_4.Location = New System.Drawing.Point(49, 336)
+        Me.Label_UpdateState_4.Location = New System.Drawing.Point(49, 335)
         Me.Label_UpdateState_4.Name = "Label_UpdateState_4"
         Me.Label_UpdateState_4.Size = New System.Drawing.Size(37, 12)
         Me.Label_UpdateState_4.TabIndex = 12
@@ -185,7 +185,7 @@ Partial Class godaddyUpdateClient
         'Label_UpdateState_6
         '
         Me.Label_UpdateState_6.AutoSize = True
-        Me.Label_UpdateState_6.Location = New System.Drawing.Point(49, 348)
+        Me.Label_UpdateState_6.Location = New System.Drawing.Point(49, 360)
         Me.Label_UpdateState_6.Name = "Label_UpdateState_6"
         Me.Label_UpdateState_6.Size = New System.Drawing.Size(37, 12)
         Me.Label_UpdateState_6.TabIndex = 13
@@ -194,7 +194,7 @@ Partial Class godaddyUpdateClient
         'CheckBoxIPv6
         '
         Me.CheckBoxIPv6.AutoSize = True
-        Me.CheckBoxIPv6.Location = New System.Drawing.Point(28, 346)
+        Me.CheckBoxIPv6.Location = New System.Drawing.Point(28, 359)
         Me.CheckBoxIPv6.Name = "CheckBoxIPv6"
         Me.CheckBoxIPv6.Size = New System.Drawing.Size(15, 14)
         Me.CheckBoxIPv6.TabIndex = 14
@@ -204,7 +204,7 @@ Partial Class godaddyUpdateClient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(517, 366)
+        Me.ClientSize = New System.Drawing.Size(517, 399)
         Me.Controls.Add(Me.CheckBoxIPv6)
         Me.Controls.Add(Me.Label_UpdateState_6)
         Me.Controls.Add(Me.Label_UpdateState_4)
