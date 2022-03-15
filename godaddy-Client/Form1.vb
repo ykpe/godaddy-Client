@@ -116,11 +116,12 @@ Public Class godaddyUpdateClient
         Dim uri As Uri = New Uri(ipInfoURL)
         clientIPv4.DownloadDataAsync(uri, 4)
 
-
-        Dim clientIPv6 As WebClient = New WebClient()
-        AddHandler clientIPv6.DownloadDataCompleted, AddressOf DownloadDataCallback
-        Dim uri6 As Uri = New Uri(ip6InfoURL)
-        clientIPv6.DownloadDataAsync(uri6, 6)
+        If CheckBoxIPv6.Checked = True Then
+            Dim clientIPv6 As WebClient = New WebClient()
+            AddHandler clientIPv6.DownloadDataCompleted, AddressOf DownloadDataCallback
+            Dim uri6 As Uri = New Uri(ip6InfoURL)
+            clientIPv6.DownloadDataAsync(uri6, 6)
+        End If
 
     End Sub
 

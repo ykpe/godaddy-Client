@@ -43,6 +43,7 @@ Partial Class godaddyUpdateClient
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label_UpdateState_4 = New System.Windows.Forms.Label()
         Me.Label_UpdateState_6 = New System.Windows.Forms.Label()
+        Me.CheckBoxIPv6 = New System.Windows.Forms.CheckBox()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -175,7 +176,7 @@ Partial Class godaddyUpdateClient
         'Label_UpdateState_4
         '
         Me.Label_UpdateState_4.AutoSize = True
-        Me.Label_UpdateState_4.Location = New System.Drawing.Point(13, 331)
+        Me.Label_UpdateState_4.Location = New System.Drawing.Point(49, 336)
         Me.Label_UpdateState_4.Name = "Label_UpdateState_4"
         Me.Label_UpdateState_4.Size = New System.Drawing.Size(37, 12)
         Me.Label_UpdateState_4.TabIndex = 12
@@ -184,17 +185,27 @@ Partial Class godaddyUpdateClient
         'Label_UpdateState_6
         '
         Me.Label_UpdateState_6.AutoSize = True
-        Me.Label_UpdateState_6.Location = New System.Drawing.Point(13, 345)
+        Me.Label_UpdateState_6.Location = New System.Drawing.Point(49, 348)
         Me.Label_UpdateState_6.Name = "Label_UpdateState_6"
         Me.Label_UpdateState_6.Size = New System.Drawing.Size(37, 12)
         Me.Label_UpdateState_6.TabIndex = 13
         Me.Label_UpdateState_6.Text = "Label1"
+        '
+        'CheckBoxIPv6
+        '
+        Me.CheckBoxIPv6.AutoSize = True
+        Me.CheckBoxIPv6.Location = New System.Drawing.Point(28, 346)
+        Me.CheckBoxIPv6.Name = "CheckBoxIPv6"
+        Me.CheckBoxIPv6.Size = New System.Drawing.Size(15, 14)
+        Me.CheckBoxIPv6.TabIndex = 14
+        Me.CheckBoxIPv6.UseVisualStyleBackColor = True
         '
         'godaddyUpdateClient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(517, 366)
+        Me.Controls.Add(Me.CheckBoxIPv6)
         Me.Controls.Add(Me.Label_UpdateState_6)
         Me.Controls.Add(Me.Label_UpdateState_4)
         Me.Controls.Add(Me.Label_Hostname)
@@ -237,4 +248,5 @@ Partial Class godaddyUpdateClient
     Friend WithEvents ExitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Label_UpdateState_4 As Label
     Friend WithEvents Label_UpdateState_6 As Label
+    Friend WithEvents CheckBoxIPv6 As CheckBox
 End Class
