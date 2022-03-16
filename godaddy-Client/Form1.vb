@@ -58,11 +58,13 @@ Public Class godaddyUpdateClient
     End Sub
 
     Private Sub Btn_Submit_Click(sender As Object, e As EventArgs) Handles Btn_Submit.Click
+
         If TextBox_API_Key.Text.Length > 0 Then
             godaddyData.key = TextBox_API_Key.Text
         Else
             Return
         End If
+
         If TextBox_API_Secret.Text.Length > 0 Then
             godaddyData.secret = TextBox_API_Secret.Text
         Else
@@ -80,6 +82,7 @@ Public Class godaddyUpdateClient
         Else
             Return
         End If
+
         If TextBox_Interval.Text.Length > 0 Then
             godaddyData.updateInterval = Convert.ToInt32(TextBox_Interval.Text)
             If godaddyData.updateInterval > 35790 Then
@@ -95,6 +98,7 @@ Public Class godaddyUpdateClient
         SaveRecord()
         UpdateDomain()
         StartTimer()
+
     End Sub
 
     Private Sub StartTimer()

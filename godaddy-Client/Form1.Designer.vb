@@ -49,15 +49,15 @@ Partial Class godaddyUpdateClient
         '
         'TextBox_Domain
         '
-        Me.TextBox_Domain.Location = New System.Drawing.Point(115, 38)
+        Me.TextBox_Domain.Location = New System.Drawing.Point(133, 38)
         Me.TextBox_Domain.Name = "TextBox_Domain"
-        Me.TextBox_Domain.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_Domain.Size = New System.Drawing.Size(286, 22)
         Me.TextBox_Domain.TabIndex = 0
         '
         'Label_Domain
         '
         Me.Label_Domain.AutoSize = True
-        Me.Label_Domain.Location = New System.Drawing.Point(26, 38)
+        Me.Label_Domain.Location = New System.Drawing.Point(26, 48)
         Me.Label_Domain.Name = "Label_Domain"
         Me.Label_Domain.Size = New System.Drawing.Size(37, 12)
         Me.Label_Domain.TabIndex = 1
@@ -66,7 +66,7 @@ Partial Class godaddyUpdateClient
         'Label_API_Key
         '
         Me.Label_API_Key.AutoSize = True
-        Me.Label_API_Key.Location = New System.Drawing.Point(26, 97)
+        Me.Label_API_Key.Location = New System.Drawing.Point(26, 92)
         Me.Label_API_Key.Name = "Label_API_Key"
         Me.Label_API_Key.Size = New System.Drawing.Size(37, 12)
         Me.Label_API_Key.TabIndex = 2
@@ -74,29 +74,29 @@ Partial Class godaddyUpdateClient
         '
         'TextBox_API_Key
         '
-        Me.TextBox_API_Key.Location = New System.Drawing.Point(115, 97)
+        Me.TextBox_API_Key.Location = New System.Drawing.Point(133, 82)
         Me.TextBox_API_Key.Name = "TextBox_API_Key"
-        Me.TextBox_API_Key.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_API_Key.Size = New System.Drawing.Size(286, 22)
         Me.TextBox_API_Key.TabIndex = 3
         '
         'TextBox_API_Secret
         '
-        Me.TextBox_API_Secret.Location = New System.Drawing.Point(115, 147)
+        Me.TextBox_API_Secret.Location = New System.Drawing.Point(133, 126)
         Me.TextBox_API_Secret.Name = "TextBox_API_Secret"
-        Me.TextBox_API_Secret.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_API_Secret.Size = New System.Drawing.Size(286, 22)
         Me.TextBox_API_Secret.TabIndex = 4
         '
         'TextBox_Interval
         '
-        Me.TextBox_Interval.Location = New System.Drawing.Point(115, 243)
+        Me.TextBox_Interval.Location = New System.Drawing.Point(133, 214)
         Me.TextBox_Interval.Name = "TextBox_Interval"
-        Me.TextBox_Interval.Size = New System.Drawing.Size(336, 22)
-        Me.TextBox_Interval.TabIndex = 10
+        Me.TextBox_Interval.Size = New System.Drawing.Size(286, 22)
+        Me.TextBox_Interval.TabIndex = 6
         '
         'Label_API_Secret
         '
         Me.Label_API_Secret.AutoSize = True
-        Me.Label_API_Secret.Location = New System.Drawing.Point(26, 150)
+        Me.Label_API_Secret.Location = New System.Drawing.Point(26, 136)
         Me.Label_API_Secret.Name = "Label_API_Secret"
         Me.Label_API_Secret.Size = New System.Drawing.Size(37, 12)
         Me.Label_API_Secret.TabIndex = 6
@@ -105,7 +105,7 @@ Partial Class godaddyUpdateClient
         'Label_Interval
         '
         Me.Label_Interval.AutoSize = True
-        Me.Label_Interval.Location = New System.Drawing.Point(26, 243)
+        Me.Label_Interval.Location = New System.Drawing.Point(26, 224)
         Me.Label_Interval.Name = "Label_Interval"
         Me.Label_Interval.Size = New System.Drawing.Size(37, 12)
         Me.Label_Interval.TabIndex = 7
@@ -113,19 +113,19 @@ Partial Class godaddyUpdateClient
         '
         'Btn_Submit
         '
-        Me.Btn_Submit.Location = New System.Drawing.Point(84, 306)
+        Me.Btn_Submit.Location = New System.Drawing.Point(133, 274)
         Me.Btn_Submit.Name = "Btn_Submit"
         Me.Btn_Submit.Size = New System.Drawing.Size(75, 23)
-        Me.Btn_Submit.TabIndex = 8
+        Me.Btn_Submit.TabIndex = 7
         Me.Btn_Submit.Text = "Button1"
         Me.Btn_Submit.UseVisualStyleBackColor = True
         '
         'Btn_Cancel
         '
-        Me.Btn_Cancel.Location = New System.Drawing.Point(344, 306)
+        Me.Btn_Cancel.Location = New System.Drawing.Point(344, 274)
         Me.Btn_Cancel.Name = "Btn_Cancel"
         Me.Btn_Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Btn_Cancel.TabIndex = 9
+        Me.Btn_Cancel.TabIndex = 8
         Me.Btn_Cancel.Text = "Button2"
         Me.Btn_Cancel.UseVisualStyleBackColor = True
         '
@@ -134,15 +134,15 @@ Partial Class godaddyUpdateClient
         '
         'TextBox_Hostname
         '
-        Me.TextBox_Hostname.Location = New System.Drawing.Point(115, 194)
+        Me.TextBox_Hostname.Location = New System.Drawing.Point(133, 170)
         Me.TextBox_Hostname.Name = "TextBox_Hostname"
-        Me.TextBox_Hostname.Size = New System.Drawing.Size(336, 22)
+        Me.TextBox_Hostname.Size = New System.Drawing.Size(286, 22)
         Me.TextBox_Hostname.TabIndex = 5
         '
         'Label_Hostname
         '
         Me.Label_Hostname.AutoSize = True
-        Me.Label_Hostname.Location = New System.Drawing.Point(26, 197)
+        Me.Label_Hostname.Location = New System.Drawing.Point(26, 180)
         Me.Label_Hostname.Name = "Label_Hostname"
         Me.Label_Hostname.Size = New System.Drawing.Size(37, 12)
         Me.Label_Hostname.TabIndex = 11
@@ -176,7 +176,7 @@ Partial Class godaddyUpdateClient
         'Label_UpdateState_4
         '
         Me.Label_UpdateState_4.AutoSize = True
-        Me.Label_UpdateState_4.Location = New System.Drawing.Point(49, 335)
+        Me.Label_UpdateState_4.Location = New System.Drawing.Point(49, 321)
         Me.Label_UpdateState_4.Name = "Label_UpdateState_4"
         Me.Label_UpdateState_4.Size = New System.Drawing.Size(37, 12)
         Me.Label_UpdateState_4.TabIndex = 12
@@ -197,7 +197,7 @@ Partial Class godaddyUpdateClient
         Me.CheckBoxIPv6.Location = New System.Drawing.Point(28, 359)
         Me.CheckBoxIPv6.Name = "CheckBoxIPv6"
         Me.CheckBoxIPv6.Size = New System.Drawing.Size(15, 14)
-        Me.CheckBoxIPv6.TabIndex = 14
+        Me.CheckBoxIPv6.TabIndex = 9
         Me.CheckBoxIPv6.UseVisualStyleBackColor = True
         '
         'godaddyUpdateClient
