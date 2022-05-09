@@ -173,7 +173,6 @@ Public Class godaddyUpdateClient
                 errorMsg = ex.Message.Substring(0, Math.Min(ex.Message.Length, 40))
             End If
             If currentIP = 4 Then
-                StopTimer()
                 Label_UpdateState_4.Text = "IPv4:" + errorMsg + Now
             Else
                 Label_UpdateState_6.Text = "IPv6:" + errorMsg + Now
@@ -189,7 +188,6 @@ Public Class godaddyUpdateClient
             Dim errorMsg As String = e.Error.ToString.Substring(0, Math.Min(e.Error.ToString.Length, 40))
 
             If currentIP = 4 Then
-                StopTimer()
                 Label_UpdateState_4.Text = "IPv4:" + errorMsg + " " + Now
             Else
                 Label_UpdateState_6.Text = "IPv6:" + errorMsg + " " + Now
