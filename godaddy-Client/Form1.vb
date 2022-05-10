@@ -11,7 +11,7 @@ Public Class godaddyUpdateClient
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         godaddyData = New GodaddyData()
-
+        Me.Text = "Godaddy Client " + My.Application.Info.Version.ToString
         'Update UI language
         Btn_Submit.Text = "Start"
         Btn_Cancel.Text = "Stop"
