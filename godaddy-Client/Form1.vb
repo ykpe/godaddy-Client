@@ -6,6 +6,10 @@ Public Class godaddyUpdateClient
     Dim godaddyData As GodaddyData
     Dim ipInfoURL As String = "https://api.ipify.org"
     Dim ip6InfoURL As String = "https://api64.ipify.org"
+    Dim currentIPv4 As String = "127.0.0.1"
+    Dim currentIPv6 As String = "[::1]"
+
+
     Dim recordFileName As String = "tick.tmp"
     Private CloseAllowed As Boolean
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -135,15 +139,29 @@ Public Class godaddyUpdateClient
 
         Dim currentIP As Integer = CType(e.UserState, Integer)
 
+
         Try
             If e.Cancelled = False AndAlso e.Error Is Nothing Then
 
-                Dim infoArray(0) As Dictionary(Of String, Object)
-                Dim dataStruct As New Dictionary(Of String, Object)
                 Dim dataInfo() As Byte = CType(e.Result, Byte())
 
-                dataStruct.Add("data", System.Text.Encoding.UTF8.GetString(dataInfo))
-                infoArray(0) = dataStruct
+
+                If currentIP = 4 Then
+                    Dim newIpv4 = System.Text.Encoding.UTF8.GetString(dataInfo)
+                    If newIpv4 = currentIPv4 Then
+                        Return
+                    Else
+                        currentIPv4 = System.Text.Encoding.UTF8.GetString(dataInfo)
+                    End If
+                ElseIf currentIP = 6 Then
+                    Dim newIpv6 = System.Text.Encoding.UTF8.GetString(dataInfo)
+                    If newIpv6 = currentIPv6 Then
+                        Return
+                    Else
+                        currentIPv6 = System.Text.Encoding.UTF8.GetString(dataInfo)
+                    End If
+                End If
+
 
                 Dim authInfo As String = "sso-key " + godaddyData.key + ":" + godaddyData.secret
                 Dim apiURL As String = ""
@@ -156,12 +174,16 @@ Public Class godaddyUpdateClient
                 End If
 
                 Dim web As New System.Net.WebClient()
+                AddHandler web.UploadStringCompleted, AddressOf UploadStringCallback2
                 web.Headers("accept") = "application/json"
                 web.Headers("Content-Type") = "application/json"
                 web.Headers("Authorization") = authInfo
 
+                Dim infoArray(0) As Dictionary(Of String, Object)
+                Dim dataStruct As New Dictionary(Of String, Object)
+                dataStruct.Add("data", System.Text.Encoding.UTF8.GetString(dataInfo))
+                infoArray(0) = dataStruct
                 Dim dataForPost As String = System.Text.Json.JsonSerializer.Serialize(infoArray)
-                AddHandler web.UploadStringCompleted, AddressOf UploadStringCallback2
 
                 Dim uri As Uri = New Uri(apiURL)
                 web.UploadStringAsync(uri, "PUT", dataForPost, currentIP)
