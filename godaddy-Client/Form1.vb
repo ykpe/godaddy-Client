@@ -154,20 +154,18 @@ Public Class godaddyUpdateClient
             Dim ipString = Await rspForIPInfo.Content.ReadAsStringAsync()
 
             If currentIP = MODE_IPV4 Then
-
                 If ipString = currentIPv4 Then
                     Return
-
+                Else
+                    currentIPv4 = ipString.ToString
                 End If
             Else
-
                 If ipString = currentIPv6 Then
                     Return
-
+                Else
+                    currentIPv6 = ipString.ToString
                 End If
             End If
-
-
 
             Dim infoArray(0) As Dictionary(Of String, Object)
             Dim dataStruct As New Dictionary(Of String, Object)
