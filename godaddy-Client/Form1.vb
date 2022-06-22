@@ -1,6 +1,6 @@
-﻿Imports System.IO
-Imports System.Net
-Imports System.Runtime.Serialization.Formatters.Binary
+﻿Imports System.Net.Http
+Imports System.Net.Http.Headers
+Imports System.Text
 
 Public Class godaddyUpdateClient
     Dim godaddyData As GodaddyData
@@ -8,7 +8,8 @@ Public Class godaddyUpdateClient
     Dim ip6InfoURL As String = "https://api64.ipify.org"
     Dim currentIPv4 As String = "127.0.0.1"
     Dim currentIPv6 As String = "[::1]"
-
+    Dim MODE_IPV4 As String = "4"
+    Dim MODE_IPV6 As String = "6"
 
     Dim recordFileName As String = "tick.tmp"
     Private CloseAllowed As Boolean
@@ -121,75 +122,86 @@ Public Class godaddyUpdateClient
     End Sub
 
     Private Sub UpdateDomain()
-        Dim clientIPv4 As WebClient = New WebClient()
-        AddHandler clientIPv4.DownloadDataCompleted, AddressOf DownloadDataCallback
-        Dim uri As Uri = New Uri(ipInfoURL)
-        clientIPv4.DownloadDataAsync(uri, 4)
+
+        UpdateGodaddyAsync(MODE_IPV4)
 
         If CheckBoxIPv6.Checked = True Then
-            Dim clientIPv6 As WebClient = New WebClient()
-            AddHandler clientIPv6.DownloadDataCompleted, AddressOf DownloadDataCallback
-            Dim uri6 As Uri = New Uri(ip6InfoURL)
-            clientIPv6.DownloadDataAsync(uri6, 6)
+
+            UpdateGodaddyAsync(MODE_IPV6)
+
         End If
 
     End Sub
 
-    Private Sub DownloadDataCallback(ByVal sender As Object, ByVal e As DownloadDataCompletedEventArgs)
 
-        Dim currentIP As Integer = CType(e.UserState, Integer)
 
+    Private Async Sub UpdateGodaddyAsync(currentIP As String)
 
         Try
-            If e.Cancelled = False AndAlso e.Error Is Nothing Then
 
-                Dim dataInfo() As Byte = CType(e.Result, Byte())
+            Dim clientForIPInfo As New HttpClient()
+            Dim rspForIPInfo As HttpResponseMessage
+            Dim uriForIPInfo As Uri
 
-
-                If currentIP = 4 Then
-                    Dim newIpv4 = System.Text.Encoding.UTF8.GetString(dataInfo)
-                    If newIpv4 = currentIPv4 Then
-                        Return
-                    Else
-                        currentIPv4 = System.Text.Encoding.UTF8.GetString(dataInfo)
-                    End If
-                ElseIf currentIP = 6 Then
-                    Dim newIpv6 = System.Text.Encoding.UTF8.GetString(dataInfo)
-                    If newIpv6 = currentIPv6 Then
-                        Return
-                    Else
-                        currentIPv6 = System.Text.Encoding.UTF8.GetString(dataInfo)
-                    End If
-                End If
-
-
-                Dim authInfo As String = "sso-key " + godaddyData.key + ":" + godaddyData.secret
-                Dim apiURL As String = ""
-                If currentIP = 4 Then
-                    Label_UpdateState_4.Text = "IPv4: " + System.Text.Encoding.UTF8.GetString(dataInfo)
-                    apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/A/" + godaddyData.hostname
-                Else
-                    Label_UpdateState_6.Text = "IPv6: " + System.Text.Encoding.UTF8.GetString(dataInfo)
-                    apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/AAAA/" + godaddyData.hostname
-                End If
-
-                Dim web As New System.Net.WebClient()
-                AddHandler web.UploadStringCompleted, AddressOf UploadStringCallback2
-                web.Headers("accept") = "application/json"
-                web.Headers("Content-Type") = "application/json"
-                web.Headers("Authorization") = authInfo
-
-                Dim infoArray(0) As Dictionary(Of String, Object)
-                Dim dataStruct As New Dictionary(Of String, Object)
-                dataStruct.Add("data", System.Text.Encoding.UTF8.GetString(dataInfo))
-                infoArray(0) = dataStruct
-                Dim dataForPost As String = System.Text.Json.JsonSerializer.Serialize(infoArray)
-
-                Dim uri As Uri = New Uri(apiURL)
-                web.UploadStringAsync(uri, "PUT", dataForPost, currentIP)
-
+            If currentIP = MODE_IPV4 Then
+                uriForIPInfo = New Uri(ipInfoURL)
+            Else
+                uriForIPInfo = New Uri(ip6InfoURL)
             End If
-        Catch ex As WebException
+            rspForIPInfo = Await clientForIPInfo.GetAsync(uriForIPInfo)
+            rspForIPInfo.EnsureSuccessStatusCode()
+
+            Dim ipString = Await rspForIPInfo.Content.ReadAsStringAsync()
+
+            If currentIP = MODE_IPV4 Then
+
+                If ipString = currentIPv4 Then
+                    Return
+
+                End If
+            Else
+
+                If ipString = currentIPv6 Then
+                    Return
+
+                End If
+            End If
+
+
+
+            Dim infoArray(0) As Dictionary(Of String, Object)
+            Dim dataStruct As New Dictionary(Of String, Object)
+            dataStruct.Add("data", ipString)
+            infoArray(0) = dataStruct
+            Dim dataForPost As String = System.Text.Json.JsonSerializer.Serialize(infoArray)
+
+
+            Dim authInfo As String = godaddyData.key + ":" + godaddyData.secret
+            Dim apiURL As String = ""
+            If currentIP = MODE_IPV4 Then
+                Label_UpdateState_4.Text = "IPv4: " + ipString
+                apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/A/" + godaddyData.hostname
+            Else
+                Label_UpdateState_6.Text = "IPv6: " + ipString
+                apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/AAAA/" + godaddyData.hostname
+            End If
+
+            Dim client As New HttpClient()
+            Dim rspn As HttpResponseMessage
+            Dim uriWebApi As New Uri(apiURL)
+            Dim hContent As HttpContent = New StringContent(dataForPost, Encoding.UTF8, "application/json")
+            Dim token As AuthenticationHeaderValue = New AuthenticationHeaderValue("sso-key", authInfo)
+            client.DefaultRequestHeaders.Authorization = token
+            rspn = Await client.PutAsync(uriWebApi, hContent)
+            rspn.EnsureSuccessStatusCode()
+
+            If currentIP = MODE_IPV4 Then
+                Label_UpdateState_4.Text = "IPv4: Success " + Now
+            Else
+                Label_UpdateState_6.Text = "IPv6: Success " + Now
+            End If
+
+        Catch ex As Exception
             Dim errorMsg As String = ""
             If ex.Message IsNot Nothing Then
                 errorMsg = ex.Message.Substring(0, Math.Min(ex.Message.Length, 40))
@@ -199,30 +211,13 @@ Public Class godaddyUpdateClient
             Else
                 Label_UpdateState_6.Text = "IPv6:" + errorMsg + Now
             End If
+        Finally
 
         End Try
-    End Sub
 
-    Private Sub UploadStringCallback2(ByVal sender As Object, ByVal e As UploadStringCompletedEventArgs)
-        Dim currentIP As Integer = CType(e.UserState, Integer)
-
-        If Not e.Error Is Nothing Then
-            Dim errorMsg As String = e.Error.ToString.Substring(0, Math.Min(e.Error.ToString.Length, 40))
-
-            If currentIP = 4 Then
-                Label_UpdateState_4.Text = "IPv4:" + errorMsg + " " + Now
-            Else
-                Label_UpdateState_6.Text = "IPv6:" + errorMsg + " " + Now
-            End If
-        Else
-            If currentIP = 4 Then
-                Label_UpdateState_4.Text = "IPv4: Success " + Now
-            Else
-                Label_UpdateState_6.Text = "IPv6: Success " + Now
-            End If
-        End If
 
     End Sub
+
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer_updateDNS.Tick
         UpdateDomain()
