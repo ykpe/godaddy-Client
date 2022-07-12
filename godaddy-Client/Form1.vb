@@ -6,8 +6,8 @@ Public Class godaddyUpdateClient
     Dim godaddyData As GodaddyData
     Dim ipInfoURL As String = "https://api.ipify.org"
     Dim ip6InfoURL As String = "https://api64.ipify.org"
-    Dim currentIPv4 As String = "127.0.0.1"
-    Dim currentIPv6 As String = "[::1]"
+    Dim recordIPv4 As String = "127.0.0.1"
+    Dim recordIPv6 As String = "[::1]"
     Dim MODE_IPV4 As String = "4"
     Dim MODE_IPV6 As String = "6"
 
@@ -112,12 +112,14 @@ Public Class godaddyUpdateClient
         Timer_updateDNS.Start()
 
         Btn_Submit.Enabled = False
+        CheckBoxIPv6.Enabled = False
         Btn_Cancel.Enabled = True
     End Sub
 
     Private Sub StopTimer()
         Timer_updateDNS.Stop()
         Btn_Submit.Enabled = True
+        CheckBoxIPv6.Enabled = True
         Btn_Cancel.Enabled = False
     End Sub
 
@@ -135,52 +137,61 @@ Public Class godaddyUpdateClient
 
 
 
-    Private Async Sub UpdateGodaddyAsync(currentIP As String)
+    Private Async Sub UpdateGodaddyAsync(currentMode As String)
 
         Try
 
-            Dim clientForIPInfo As New HttpClient()
-            Dim rspForIPInfo As HttpResponseMessage
             Dim uriForIPInfo As Uri
-
-            If currentIP = MODE_IPV4 Then
+            If currentMode = MODE_IPV4 Then
                 uriForIPInfo = New Uri(ipInfoURL)
             Else
                 uriForIPInfo = New Uri(ip6InfoURL)
             End If
+
+            Dim clientForIPInfo As New HttpClient()
+            Dim rspForIPInfo As HttpResponseMessage
             rspForIPInfo = Await clientForIPInfo.GetAsync(uriForIPInfo)
             rspForIPInfo.EnsureSuccessStatusCode()
 
-            Dim ipString = Await rspForIPInfo.Content.ReadAsStringAsync()
+            Dim newIP = Await rspForIPInfo.Content.ReadAsStringAsync()
 
-            If currentIP = MODE_IPV4 Then
-                If ipString = currentIPv4 Then
+            If currentMode = MODE_IPV4 Then
+                If newIP = recordIPv4 Then
+                    Label_UpdateState_4.Text = "IPv4: IP Not Changed " + Now
                     Return
                 Else
-                    currentIPv4 = ipString.ToString
+                    recordIPv4 = newIP.ToString
                 End If
             Else
-                If ipString = currentIPv6 Then
+                If newIP = recordIPv6 Then
+                    Label_UpdateState_6.Text = "IPv6: IP Not Changed " + Now
                     Return
                 Else
-                    currentIPv6 = ipString.ToString
+                    If newIP.Length > 0 Then
+                        Dim arr() = newIP.Split(":")
+                        If arr.Length > 2 Then
+                            recordIPv6 = newIP.ToString
+                        Else
+                            Label_UpdateState_6.Text = "IPv6: IP Not Detect " + Now
+                        End If
+                    End If
                 End If
             End If
 
             Dim infoArray(0) As Dictionary(Of String, Object)
             Dim dataStruct As New Dictionary(Of String, Object)
-            dataStruct.Add("data", ipString)
+            dataStruct.Add("data", newIP)
             infoArray(0) = dataStruct
             Dim dataForPost As String = System.Text.Json.JsonSerializer.Serialize(infoArray)
 
 
             Dim authInfo As String = godaddyData.key + ":" + godaddyData.secret
             Dim apiURL As String = ""
-            If currentIP = MODE_IPV4 Then
-                Label_UpdateState_4.Text = "IPv4: " + ipString
+            If currentMode = MODE_IPV4 Then
+                Label_UpdateState_4.Text = "IPv4: " + newIP
                 apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/A/" + godaddyData.hostname
             Else
-                Label_UpdateState_6.Text = "IPv6: " + ipString
+                Label_UpdateState_6.Text = "IPv6: " + newIP
                 apiURL = "https://api.godaddy.com/v1/domains/" + godaddyData.domainName + "/records/AAAA/" + godaddyData.hostname
             End If
 
@@ -193,7 +204,7 @@ Public Class godaddyUpdateClient
             rspn = Await client.PutAsync(uriWebApi, hContent)
             rspn.EnsureSuccessStatusCode()
 
-            If currentIP = MODE_IPV4 Then
+            If currentMode = MODE_IPV4 Then
                 Label_UpdateState_4.Text = "IPv4: Success " + Now
             Else
                 Label_UpdateState_6.Text = "IPv6: Success " + Now
@@ -204,7 +215,7 @@ Public Class godaddyUpdateClient
             If ex.Message IsNot Nothing Then
                 errorMsg = ex.Message.Substring(0, Math.Min(ex.Message.Length, 40))
             End If
-            If currentIP = 4 Then
+            If currentMode = 4 Then
                 Label_UpdateState_4.Text = "IPv4:" + errorMsg + Now
             Else
                 Label_UpdateState_6.Text = "IPv6:" + errorMsg + Now
@@ -215,7 +226,6 @@ Public Class godaddyUpdateClient
 
 
     End Sub
-
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer_updateDNS.Tick
         UpdateDomain()
@@ -265,6 +275,13 @@ Public Class godaddyUpdateClient
         Else
             e.Handled = True
         End If
+    End Sub
+
+    Private Sub CheckBoxIPv6_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBoxIPv6.CheckedChanged
+        If CheckBoxIPv6.CheckState = False Then
+            Label_UpdateState_6.Text = "IPv6:"
+        End If
+
     End Sub
 End Class
 
